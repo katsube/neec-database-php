@@ -78,5 +78,30 @@ timeコマンドを利用して処理時間を計測しましょう。
 $ time php client.php (検索キーワード)
 ```
 
+## 実行結果のサンプル
+STEP1
+```shellsession
+$ time php searchNormal.php
+real	0m0.268s
+user	0m0.101s
+sys	0m0.078s
+```
+
+STEP2
+```shellsession
+$ time php searchIndex.php
+real	0m0.225s
+user	0m0.022s
+sys	0m0.061s
+```
+
+STEP3
+```shellsession
+$ time php client.php
+real	0m0.178s
+user	0m0.020s
+sys	0m0.055s
+```
+
 ## Licence
 The MIT License
