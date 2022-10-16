@@ -12,6 +12,10 @@ require_once('common.php');
 //-------------------------------------------
 // 初期設定
 //-------------------------------------------
+// 処理開始時間
+$starttime = microtime(true);
+
+// 設定
 error_reporting(E_ALL);
 ob_implicit_flush();
 
@@ -47,5 +51,9 @@ while ( $out = socket_read($socket, 2048) ) {
 }
 socket_close($socket);
 
+// 処理終了時間
+$endtime = microtime(true);
+
 // 受信したデータを表示
 echo base64_decode($data);
+echo '検索時間: '.($endtime-$starttime)."秒\n";

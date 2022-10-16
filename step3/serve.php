@@ -78,30 +78,36 @@ while ( true ) {
 			break;
 		}
 		$buff = trim($buff);
-		echo "  Client message: $buff\n";
+		echo "    Client message: $buff\n";
+
+		// 処理開始時間
+		$starttime = microtime(true);
 
 		// メッセージが空の場合はもう一度
 		if ( ($buff = trim($buff)) === '' ) {
 				continue;
 		}
-		// メッセージが"quit"の場合は終了
-		if ( $buff === 'quit' ) {
-				break;
-		}
-		// メッセージが"GET"の場合はインデックスから検索
+		// メッセージが"GET"から始まる場合は検索
 		$response = '';
 		if ( preg_match('/^GET (.*)$/i', $buff, $matches) ) {
 			$keyword = $matches[1];
+			// インデックスに存在すれば利用
 			if( array_key_exists($keyword, $index) ){
+				echo "    Index Search\n";
 				$response = base64_encode( searchIndex(DATA_FILE, $index, $keyword) ) . "\n";
 			}
+			// 存在しなければ全文検索
 			else{
+				echo "    Full-text Search\n";
 				$response = base64_encode( searchFile(DATA_FILE, $keyword) ) . "\n";
 			}
 		}
 		else{
 			$response = 'InvalidRequest';
 		}
+		// 処理終了時間
+		$endtime = microtime(true);
+		echo '    検索時間: '.($endtime-$starttime)."秒\n";
 
 		// クライアントにメッセージを送信
 		socket_write($msgsock, $response, strlen($response));
@@ -144,7 +150,8 @@ function searchFile($file, $word){
 	$result = '';
 	$fp = fopen($file, 'r');
 	while( ($buff=fgets($fp)) !== false ){
-		if( strpos($buff, $word) !== false ){
+		list($id, $title, $format, $length) = explode("\t", $buff);
+		if( strpos($title, $word) !== false ){
 			$result .= $buff;
 		}
 	}

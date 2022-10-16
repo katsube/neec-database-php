@@ -17,7 +17,24 @@ define('INDEX_FILE', '../data/index.txt');
 $words = [
 	'アイドルマスター',
 	'陰陽師',
-	'孤独のグルメ'
+	'ガンダム',
+	'歌ってみた',
+	'踊ってみた',
+	'演奏してみた',
+	'初音ミク',
+	'ポケモン',
+	'東方',
+	'霊夢',
+	'魔理沙',
+	'ひぐらし',
+	'田村ゆかり',
+	'ファミコン',
+	'マリオ',
+	'ゼルダ',
+	'風来のシレン',
+	'イース',
+	'三国志',
+	'エースコンバット'
 ];
 
 //-------------------------------------------
@@ -45,13 +62,14 @@ for($i=0; $i<count($words); $i++){
  */
 function createIndex($file, $word){
 	$position = [ ];
-	$buff = '';
+	$buff = "\t\t\t\t";
 	$pos = 0;
 
 	$fp = fopen($file, 'r');
 	fseek($fp, 0);
 	while( $buff !== false ){
-		if( strpos($buff, $word) !== false ){
+		list($id, $title, $format, $length) = explode("\t", $buff);
+		if( strpos($title, $word) !== false ){
 			$position[] = $pos;
 		}
 		$pos = ftell($fp);

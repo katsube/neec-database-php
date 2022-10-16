@@ -12,11 +12,17 @@ define('INDEX_FILE', '../data/index.txt');
 //-------------------------------------------
 // 検索する
 //-------------------------------------------
+// 処理開始時間
+$starttime = microtime(true);
+
 // コマンドラインから引数を受け取る
 $word = ($argc === 2)?  $argv[1] : 'アイドルマスター';
 
 // インデックスをメモリ上にロード
+$indexloadstart = microtime(true);
 $index = loadIndex(INDEX_FILE);
+$indexloadend = microtime(true);
+echo 'インデックス読み込み時間: '.($indexloadend-$indexloadstart).'秒'.PHP_EOL;
 
 // 検索
 if( array_key_exists($word, $index) ){
@@ -26,12 +32,16 @@ else{
 	$result = searchFile(DATA_FILE, $word);
 }
 
+// 検索終了時間
+$endtime = microtime(true);
+
 // 結果を表示
 $len = count($result);
 for( $i=0; $i<$len; $i++ ){
 	echo $result[$i];
 }
 
+echo '検索時間: '.($endtime-$starttime).'秒';
 
 /**
  * インデックスをロード

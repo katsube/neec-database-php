@@ -14,7 +14,9 @@ define('DATA_FILE', '../data/video.csv');
 $keyword = 'アイドルマスター';
 
 // ファイルの先頭から検索
+$starttime = microtime(true);
 $result = searchFile(DATA_FILE, $keyword);
+$endtime = microtime(true);
 
 // 結果を表示
 $len = count($result);
@@ -22,6 +24,7 @@ for( $i=0; $i<$len; $i++ ){
 	echo $result[$i];
 }
 
+echo '検索時間: '.($endtime-$starttime).'秒';
 
 /**
  * ファイルを先頭から検索
@@ -35,7 +38,8 @@ function searchFile($file, $word){
 
 	$fp = fopen($file, 'r');
 	while( ($buff=fgets($fp)) !== false ){
-		if( strpos($buff, $word) !== false ){
+		list($id, $title, $format, $length) = explode("\t", $buff);
+		if( strpos($title, $word) !== false ){
 			$result[] = $buff;
 		}
 	}
