@@ -1,2 +1,2 @@
-data/video.csv
+data/*.csv
 data/index.txt
