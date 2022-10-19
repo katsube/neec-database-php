@@ -98,7 +98,7 @@ $ php convert.php
 
 各項目のサイズは以下の通り。不足しているスペースは半角スペースで埋められます。
 
-1. 削除フラグ（1byte）
+1. 状態フラグ（1byte）
     * 1:有効、0:削除済み
 1. ID（10byte）
 1. タイトル（128byte）
@@ -110,7 +110,7 @@ $ php convert.php
 $ php search.php
 ```
 
-insertはSTEP3とそれほど変わりませんが、updateは固定長であるメリットを活かし既存のレコードを直接書き換えています。deleteはフラグを立てるだけ。
+insertはSTEP3とそれほど変わりませんが、updateは固定長であるメリットを活かし既存のレコードを直接書き換えています。deleteはフラグを下ろすだけ。
 ```shellsession
 $ php insert2.php
 $ php update2.php
