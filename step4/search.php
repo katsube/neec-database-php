@@ -39,10 +39,13 @@ function searchFileFixed($file, $word){
 	$result = [ ];
 
 	$fp = fopen($file, 'r');
-	while( $buff = fscanf($fp, '%10s%128s%5s%5s') ){
-		list($id, $title, $format, $length) = $buff;
+	while( $buff = fscanf($fp, '%1d%10s%128s%5s%5s') ){
+		list($flag, $id, $title, $format, $length) = $buff;
+		if( $flag !== 1){
+			continue;
+		}
 		if( strpos($title, $word) !== false ){
-			$result[] = $buff;
+			$result[] = [$id, $title, $format, $length];
 		}
 	}
 	fclose($fp);
