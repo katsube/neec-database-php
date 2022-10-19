@@ -90,6 +90,34 @@ $ php update1.php
 $ php delete1.php
 ```
 
+### STEP4. データファイルを固定長化
+「data/video.csv」を固定長に変換します。変換後のファイルは「data/video_fixed.csv」へ保存されます。
+```shellsession
+$ php convert.php
+```
+
+各項目のサイズは以下の通り。不足しているスペースは半角スペースで埋められます。
+
+1. 削除フラグ（1byte）
+    * 1:有効、0:削除済み
+1. ID（10byte）
+1. タイトル（128byte）
+1. 動画フォーマット（5byte）
+1. 動画の長さ（5byte）
+
+今回は`fscanf()`でファイルからデータを読み取っています。
+```shellsession
+$ php search.php
+```
+
+insertはSTEP3とそれほど変わりませんが、updateは固定長であるメリットを活かし既存のレコードを直接書き換えています。deleteはフラグを立てるだけ。
+```shellsession
+$ php insert2.php
+$ php update2.php
+$ php delete2.php
+```
+
+
 ### STEP.n デーモン化
 **※STEPnの実行には、STEP2で作成したインデックスファイル(data/index.txt)が必要になります。**
 
